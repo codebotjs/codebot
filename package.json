@@ -1,6 +1,6 @@
 {
   "name": "codebot",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Program your programs to make it faster.",
   "main": "index.js",
   "scripts": {
