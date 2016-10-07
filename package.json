@@ -1,6 +1,6 @@
 {
   "name": "codebot",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Program your programs to make it faster.",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,7 @@
   "author": "Delmo Carrozzo <dcardev@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/delmosaurio/node-codebot/issues"
+    "url": "https://github.com/delmosaurio/codebot/issues"
   },
-  "homepage": "https://github.com/delmosaurio/node-codebot#readme"
+  "homepage": "https://github.com/delmosaurio/codebot#readme"
 }
