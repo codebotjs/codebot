@@ -33,29 +33,29 @@ export default function({sources, model = {}, output, plugins = [], stdout=proce
   async.waterfall([
     cb => {
       discover({log})
-        .then(result => {
-          cb(null, result);
+        .then(res => {
+          cb(null, res);
         })
         .catch(cb);
     },
-    (result, cb) => {
+    (res, cb) => {
       transpiler({log})
-        .then(result => {
-          cb(null, result);
+        .then(res => {
+          cb(null, res);
         })
         .catch(cb);
     },
-    (result, cb) => {
+    (res, cb) => {
       plugins({log})
-        .then(result => {
-          cb(null, result);
+        .then(res => {
+          cb(null, res);
         })
         .catch(cb);
     },
-    (result, cb) => {
+    (res, cb) => {
       writer({log})
-        .then(result => {
-          cb(null, result);
+        .then(res => {
+          cb(null, res);
         })
         .catch(cb);
     }

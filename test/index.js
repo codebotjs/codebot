@@ -1,15 +1,44 @@
-import test from "tape"
+import 'babel-polyfill';
+import assert from 'assert';
 import codebot from "../src"
 
-test("codebot#creation", (t) => {
-  t.plan(5)
+describe('codebot', function() {
 
-  t.throws(() => codebot(), /error/i, "Should throw an Error when sources/output has not defined");
-  t.throws(() => codebot({ sources: 'some/path' }), /error/i, "Should throw an Error when sources/output has not defined");
-  t.throws(() => codebot({ output: 'some/path' }), /error/i, "Should throw an Error when sources/output has not defined");
+  describe('#run', () => {
 
-  var cbot = codebot({ sources: 'some/path', output: 'some/path' });
+    it('should throw an Error when sources/output has not defined', (done) => {
+      try {
+        codebot();
+        done(new Error('Can\t be run this'));
+      } catch(err){
+        done();
+      }
+    });
 
-  t.equal(typeof cbot, 'object', 'return an object');
-  t.equal(true, cbot['then'] !== undefined, 'need to be a promise');
-})
+    it('should throw an Error when output has not defined', (done) => {
+      try {
+        codebot({ sources: 'some/path' });
+        done(new Error('Can\t be run this'));
+      } catch(err){
+        done();
+      }
+    });
+
+    it('should throw an Error when sources has not defined', (done) => {
+      try {
+        codebot({ output: 'some/path' });
+        done(new Error('Can\t be run this'));
+      } catch(err){
+        done();
+      }
+    });
+
+    it('should be run wen sources/output are defined', () => {
+      var cbot = codebot({ sources: 'some/path', output: 'some/path' });
+      assert.equal(typeof cbot, 'object', 'return an object');
+      assert.equal(true, cbot['then'] !== undefined, 'need to be a promise');
+    });
+
+  });
+
+});
