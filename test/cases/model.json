@@ -1,3 +1,28 @@
 {
-  
+  "layer": {
+    "app": "./client/app",
+    "routes": "./server/routes"
+  },
+  "target": {
+    "actor": { 
+      "plurals": "actors",
+      "view": {
+        "add": {/*view stuff*/}
+      }
+    },
+    "director": { 
+      "plurals": "directors",
+      "view": {
+        "add": {/*view stuff*/}
+      }
+    },
+    "movie": { 
+      "plurals": "movies",
+      "view": {
+        "add": {/*view stuff*/},
+        "edit": {/*view stuff*/},
+        "search": {/*view stuff*/},
+      }
+    }
+  }
 }

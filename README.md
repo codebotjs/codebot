@@ -27,6 +27,8 @@
   </a>
 </p>
 
+***This project is under development***
+
 Codebot is a tool to make applications from templates and a model.
 
 The idea is that you need to write the code one time, then use the model.
@@ -42,6 +44,8 @@ npm i -D codebot
 ### Templates
 
 Codebot use [ejs](https://www.npmjs.com/package/ejs) as template engine
+
+The templates will be searched on the `src` folder
 
 ### Directives on filenames and folders
 
@@ -66,12 +70,12 @@ k        |$k{target}|write the target as [kebabCase*](https://lodash.com/docs#ke
 **Example**
 
 ```js
-// the model
+//model.json
 {
-  layer: [
+  layer: {
     'app': './client/app',
     'routes': './server/routes'
-  ],
+  },
   target: {
     'actor': { 
       plurals: 'actors',
@@ -95,8 +99,12 @@ k        |$k{target}|write the target as [kebabCase*](https://lodash.com/docs#ke
     }
   }
 }
+```
 
-// template files
+**Templates example**
+
+```js
+// /path/from/angular/src/
 - #app
   - ${target}
     - @${target}.controller.js
@@ -104,10 +112,17 @@ k        |$k{target}|write the target as [kebabCase*](https://lodash.com/docs#ke
     - config.js
   - @app.config.js
   - app.js
+```
+
+```js
+// /path/from/api/src/
 - #routes
   - @${target.plurals}.js
+```
 
-// output
+**The output**
+
+```js
 ./client/app/actor/actor.controller.js       // writed every time
 ./client/app/actor/config.js                 // writed if the output is not exists
 ./client/app/actor/add.html                  // writed every time
