@@ -6,7 +6,7 @@ describe('codebot', function() {
 
   describe('#run', () => {
 
-    it('should throw an Error when sources/output has not defined', (done) => {
+    it('should throw an Error when sources/output is not defined', (done) => {
       try {
         codebot();
         done(new Error('Can\t be run this'));
@@ -15,7 +15,7 @@ describe('codebot', function() {
       }
     });
 
-    it('should throw an Error when output has not defined', (done) => {
+    it('should throw an Error when output is not defined', (done) => {
       try {
         codebot({ sources: 'some/path' });
         done(new Error('Can\t be run this'));
@@ -24,7 +24,7 @@ describe('codebot', function() {
       }
     });
 
-    it('should throw an Error when sources has not defined', (done) => {
+    it('should throw an Error when sources is not defined', (done) => {
       try {
         codebot({ output: 'some/path' });
         done(new Error('Can\t be run this'));

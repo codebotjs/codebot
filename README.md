@@ -27,21 +27,107 @@
   </a>
 </p>
 
-<p align="center"><big>
-Codebot is a tools to make programs from templates and a model.
-</big></p>
+Codebot is a tool to make applications from templates and a model.
 
-## More information
+The idea is that you need to write the code one time, then use the model.
 
-The idea is that you need to write the code one time, then change the model.
+Think an application, then write it as templates and then use to make multiple apps changin the model, if you need to improve something, change the templates and every app will take the benefit.
 
-Thing an application, write it as templates and then use to make others, if
-you need to improvement something, change the templates and every app take the benefit.
-
-## Install
+### Install
 
 ```sh
 npm i -D codebot
+```
+
+### Templates
+
+Codebot use [ejs](https://www.npmjs.com/package/ejs) as template engine
+
+### Directives on filenames and folders
+
+directive|usage     |description
+---------|----------|-----------
+#        |#layername|layer/folder names
+@        |@filename |automatic file
+${}      |${target} |dynamics names
+
+**modifiers**
+
+character|usage     |description
+---------|----------|-----------
+l        |$l{target}|write the target as [lowerCase*](https://lodash.com/docs#lowerCase)
+u        |$u{target}|write the target as [upperCase*](https://lodash.com/docs#upperCase)
+c        |$c{target}|write the target as [camelCase*](https://lodash.com/docs#camelCase)
+s        |$s{target}|write the target as [snakeCase*](https://lodash.com/docs#snakeCase)
+k        |$k{target}|write the target as [kebabCase*](https://lodash.com/docs#kebabCase)
+
+**please see the [lodash](https://lodash.com/docs) documentation*
+
+**Example**
+
+```js
+// the model
+{
+  layer: [
+    'app': './client/app',
+    'routes': './server/routes'
+  ],
+  target: {
+    'actor': { 
+      plurals: 'actors',
+      view: {
+        'add': {/*view stuff*/}
+      }
+    },
+    'director': { 
+      plurals: 'directors',
+      view: {
+        'add': {/*view stuff*/}
+      }
+    },
+    'movie': { 
+      plurals: 'movies',
+      view: {
+        'add': {/*view stuff*/},
+        'edit': {/*view stuff*/},
+        'search': {/*view stuff*/},
+      }
+    }
+  }
+}
+
+// template files
+- #app
+  - ${target}
+    - @${target}.controller.js
+    - @${target.view}.html
+    - config.js
+  - @app.config.js
+  - app.js
+- #routes
+  - @${target.plurals}.js
+
+// output
+./client/app/actor/actor.controller.js       // writed every time
+./client/app/actor/config.js                 // writed if the output is not exists
+./client/app/actor/add.html                  // writed every time
+
+./client/app/director/director.controller.js // writed every time
+./client/app/director/config.js              // writed if the output is not exists
+./client/app/director/add.html               // writed every time
+
+./client/app/movie/movie.controller.js       // writed every time
+./client/app/movie/config.js                 // writed if the output is not exists
+./client/app/movie/add.html                  // writed every time
+./client/app/movie/edit.html                 // writed every time
+./client/app/movie/search.html               // writed every time
+
+./client/app/app.config.js                   // writed every time
+./client/app/app.js                          // writed if the output is not exists
+
+./server/routes/actors.js                    // writed every time
+./server/routes/directors.js                 // writed every time
+./server/routes/movies.js                    // writed every time
 ```
 
 ## License
