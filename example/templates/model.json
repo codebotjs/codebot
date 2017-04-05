@@ -7,21 +7,21 @@
     "actor": { 
       "plurals": "actors",
       "view": {
-        "add": {/*view stuff*/}
+        "add": {}
       }
     },
     "director": { 
       "plurals": "directors",
       "view": {
-        "add": {/*view stuff*/}
+        "add": {}
       }
     },
     "movie": { 
       "plurals": "movies",
       "view": {
-        "add": {/*view stuff*/},
-        "edit": {/*view stuff*/},
-        "search": {/*view stuff*/},
+        "add": {},
+        "edit": {},
+        "search": {}
       }
     }
   }

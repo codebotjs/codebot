@@ -38,7 +38,7 @@ Think an application, then write it as templates and then use to make multiple a
 ### Install
 
 ```sh
-npm i -D codebot
+npm i --save-dev codebot
 ```
 
 ### Templates
@@ -49,11 +49,12 @@ The templates will be searched on the `src` folder
 
 ### Directives on filenames and folders
 
-directive|usage     |description
----------|----------|-----------
-#        |#layername|layer/folder names
-@        |@filename |automatic file
-${}      |${target} |dynamics names
+directive|usage      |description
+---------|-----------|-----------
+#        |#layername |layer/folder names
+@        |@filename  |automatic file
+${}      |${target}  |dynamics names
+$current |${$current}|current dynamic name from parent
 
 **modifiers**
 
@@ -107,8 +108,8 @@ k        |$k{target}|write the target as [kebabCase*](https://lodash.com/docs#ke
 // /path/from/angular/src/
 - #app
   - ${target}
-    - @${target}.controller.js
-    - @${target.view}.html
+    - @${$current}.controller.js
+    - @${$current.view}.html
     - config.js
   - @app.config.js
   - app.js

@@ -4,7 +4,7 @@ import Q from 'q';
 
 const target = 'transpiler';
 
-export default function({log}){
+export default function({log, output, model, templates}){
   var def = Q.defer();
 
   // simulation

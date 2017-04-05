@@ -6,8 +6,16 @@ import Q from 'q';
 import Log from './lib/log';
 import discover from './lib/discover';
 import transpiler from './lib/transpiler';
-import plugins from './lib/plugins';
+import _plugins from './lib/plugins';
 import writer from './lib/writer';
+import ModelAccesor from './lib/model-accesor';
+
+// set the async parallel limit
+process.env.ASYNC_LIMIT = process.env.ASYNC_LIMIT || 5;
+
+process.on('uncaughtException', function (err) {
+  console.log(err);
+})
 
 /**
  * Codebot
@@ -29,24 +37,27 @@ export default function({sources, model = {}, output, plugins = [], stdout=proce
 
   var log = Log({ stdout, level: loglevel});
 
+  // create a model accesor
+  var ma = new ModelAccesor(model);
+
   // make happens
   async.waterfall([
     cb => {
-      discover({log})
+      discover({log, sources, output, model: ma})
         .then(res => {
           cb(null, res);
         })
         .catch(cb);
     },
     (res, cb) => {
-      transpiler({log})
+      transpiler({log, output, model: ma, templates: res})
         .then(res => {
           cb(null, res);
         })
         .catch(cb);
     },
     (res, cb) => {
-      plugins({log})
+      _plugins({log})
         .then(res => {
           cb(null, res);
         })
@@ -59,12 +70,12 @@ export default function({sources, model = {}, output, plugins = [], stdout=proce
         })
         .catch(cb);
     }
-  ], (err) => {
+  ], (err, res) => {
     // do something
     if (err){
       return def.reject(err);
     }
-    def.resolve({});
+    def.resolve(res);
   });
 
   return def.promise;
