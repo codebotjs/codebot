@@ -51,7 +51,7 @@ The templates will be searched on the `src` folder
 
 directive|usage      |description
 ---------|-----------|-----------
-#        |#layername |layer/folder names
+\#        |\#layername |layer/folder names
 @        |@filename  |automatic file
 ${}      |${target}  |dynamics names
 $current |${$current}|current dynamic name from parent
