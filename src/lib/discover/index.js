@@ -139,15 +139,15 @@ export default function({log, sources, output, model}){
           // resolve children
           _.each(nd.children, c => {
             if (c.dynamic){
-              if (c.accesor === '$current'){
+              if (c.accesor === '$this'){
                 c.name = c.name.replace(c.directive, i);
                 delete c.accesor;
                 delete c.directive;
                 delete c.dynamic;
               } else {
-                c.name = c.name.replace('$current', ac);
-                c.accesor = c.accesor.replace('$current', ac);
-                c.directive = c.directive.replace('$current', ac);  
+                c.name = c.name.replace('$this', ac);
+                c.accesor = c.accesor.replace('$this', ac);
+                c.directive = c.directive.replace('$this', ac);  
               }
             }
           });
@@ -296,7 +296,7 @@ export default function({log, sources, output, model}){
     });
   }
 
-  function _reduce(items){
+  function _reduce(items, callback){
     let limit = process.env.ASYNC_LIMIT || 2;
 
     var res = [];
@@ -318,7 +318,7 @@ export default function({log, sources, output, model}){
           if (err){
             return callback(err);
           }
-          fs.writeJsonSync('./outputs.json', res);
+          //fs.writeJsonSync('./outputs.json', res);
           //console.dir(res);
           callback(null, res);
         }

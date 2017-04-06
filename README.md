@@ -47,17 +47,17 @@ Codebot use [ejs](https://www.npmjs.com/package/ejs) as template engine
 
 The templates will be searched on the `src` folder
 
-### Directives on filenames and folders
+### Directives to filenames and folders
 
 directive|usage      |description
 ---------|-----------|-----------
 \#        |\#layername |layer/folder names
 @        |@filename  |automatic file
 ${}      |${target}  |dynamics names
-$current |${$current}|current dynamic name from parent
+$this |${$this}|current dynamic name from parent
 
 **modifiers**
-
+  
 character|usage     |description
 ---------|----------|-----------
 l        |$l{target}|write the target as [lowerCase*](https://lodash.com/docs#lowerCase)
