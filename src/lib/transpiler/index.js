@@ -5,16 +5,20 @@ import ejs from 'ejs';
 
 const target = 'transpiler';
 
-export default function({log, item, ops}){
+export default function({log, item, model, ops}){
   var def = Q.defer();
 
   ops = ops || {};
 
-  let model = item.model || {};
+  let context = { 
+    $this: item.$this,
+    $parent: item.$parent,
+    $model: model
+  };
 
   log.verbose(target, `processing ${item.name}`);
 
-  ejs.renderFile(item.path, { $this: model }, ops, (err, content) => {
+  ejs.renderFile(item.path, context, ops, (err, content) => {
     if (err){
       log.err(target, err);
       return def.reject(err);

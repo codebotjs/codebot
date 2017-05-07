@@ -3,26 +3,31 @@
     "app": "./client/app",
     "routes": "./server/routes"
   },
-  "target": {
-    "actor": { 
+  "target": [
+    {
+      "name": "actor", 
       "plurals": "actors",
-      "view": {
-        "add": {}
-      }
+      "view": [
+        "add",
+        "edit"
+      ]
     },
-    "director": { 
+    {
+      "name": "director", 
       "plurals": "directors",
-      "view": {
-        "add": {}
-      }
+      "view": [
+        "add",
+        "edit"
+      ]
     },
-    "movie": { 
+    {
+      "name": "movie", 
       "plurals": "movies",
-      "view": {
-        "add": {},
-        "edit": {},
-        "search": {}
-      }
+      "view": [
+        "add",
+        "edit",
+        "search"
+      ]
     }
-  }
+  ]
 }

@@ -136,10 +136,17 @@ export default function({log, sources, output, model}){
           delete nd.accesor;
           nd.name = nd.name.replace(d.directive, i);
 
+          var $parent = _resolveAccesor(ac, $model);
+          nd.$this = $parent;
+
           // resolve children
           _.each(nd.children, c => {
+            
+            c.$this = c.$parent = $parent;
+
             if (c.dynamic){
               if (c.accesor === '$this'){
+                //TODO: replace with lodash
                 c.name = c.name.replace(c.directive, i);
                 delete c.accesor;
                 delete c.directive;
@@ -147,7 +154,10 @@ export default function({log, sources, output, model}){
               } else {
                 c.name = c.name.replace('$this', ac);
                 c.accesor = c.accesor.replace('$this', ac);
-                c.directive = c.directive.replace('$this', ac);  
+                c.directive = c.directive.replace('$this', ac);
+
+                var $this = _resolveSelf(c.accesor, $model);
+                c.$this = $this;
               }
             }
           });
@@ -290,8 +300,6 @@ export default function({log, sources, output, model}){
         return nf;
       });
 
-      //console.log(nfiles)
-
       item.children = item.children.concat(nfiles);
     });
   }
@@ -372,6 +380,26 @@ export default function({log, sources, output, model}){
     );
 
     return def.promise;
+  }
+
+  function _resolveSelf(accesor, model){
+
+    // always return objects keys
+    let props = accesor.split('.');
+    var values = {};
+
+    //if (props.length > 2){
+    //  throw new Error('invalid accesor ' + accesor);
+    //}
+
+    if (props.length === 1){
+      return model[accesor];
+    }
+
+    var a = props[0];
+    var p = props[1];
+
+    return model[a];
   }
 
   function _resolveAccesor(accesor, model){

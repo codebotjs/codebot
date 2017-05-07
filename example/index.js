@@ -5,11 +5,11 @@ import codebot from '../src/';
 
 let ops = {
   sources: [
-    path.resolve('./templates/angular'),
-    path.resolve('./templates/server')
+    path.resolve(path.join(__dirname, '/templates/angular')),
+    path.resolve(path.join(__dirname, '/templates/server'))
   ],
-  output: path.resolve('./output'),
-  model: fs.readJsonSync('./templates/model.json')
+  output: path.resolve(path.join(__dirname, '/output')),
+  model: fs.readJsonSync(path.join(__dirname, '/templates/model.json'))
 };
 
 codebot(ops)

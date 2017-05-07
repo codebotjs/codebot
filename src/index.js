@@ -45,7 +45,7 @@ export default function({sources, model = {}, output, plugins = [], stdout=proce
     cb => {
       discover({log, sources, output, model: ma})
         .then(res => {
-          cb(null, res);
+          cb(null, {items: res, model: ma});
         })
         .catch(cb);
     },
@@ -62,9 +62,12 @@ export default function({sources, model = {}, output, plugins = [], stdout=proce
 
   //
   // Helpers
-  function _process(items, callback){
+  function _process(ops, callback){
     let limit = process.env.ASYNC_LIMIT || 2;
     let target = 'codebot';
+
+    let items = ops.items;
+    let model = ops.model;
 
     log.info(target, `processing ${items.length} items`);
 
@@ -75,7 +78,7 @@ export default function({sources, model = {}, output, plugins = [], stdout=proce
           
           async.waterfall([
             (cb) => {
-              transpiler({log, item: item})
+              transpiler({log, item: item, model})
                 .then(res => {
                   cb(null, res);
                 })

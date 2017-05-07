@@ -1,6 +1,5 @@
 // add code here
 
-
 /*
  <%- JSON.stringify($this) %>
  <%- JSON.stringify($parent) %>
