@@ -2,9 +2,8 @@ import path from 'path';
 import fs from 'fs-extra';
 import codebot from '../src/';
 
-
 let ops = {
-  sources: [
+  modules: [
     path.resolve(path.join(__dirname, '/templates/angular')),
     path.resolve(path.join(__dirname, '/templates/server'))
   ],
@@ -15,7 +14,12 @@ let ops = {
 codebot(ops)
   .then(results => {
     console.log('everything done');
-    console.dir(results);
+    //console.dir(results);
+    console.log('');
+    results.items.forEach( m => {
+
+      console.log(m.toString(true, 'source-tree'));
+    })
   })
   .catch(err => {
     console.log('something wrong');

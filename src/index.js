@@ -19,14 +19,22 @@ process.on('uncaughtException', function (err) {
 
 /**
  * Codebot
+ *
+ * Codebot is a tool to make applications from templates and a model.
  * 
- * @param {Object} Options
- * @return {Object}
+ * @param  {String|Array} options.modules path/s of modules
+ * @param  {Object}       options.model   The model
+ * @param  {String}       output          Destination folder
+ * @param  {Array}        plugins         Plugins to apply 
+ * @param  {Object}       stdout          I/O output
+ * @param  {String}       loglevel        The log level (verbose, info)
+ * @return {Promise}
  */
-export default function({sources, model = {}, output, plugins = [], stdout=process.stderr, loglevel='verbose'} = {}) {
-  
-  if (!sources){
-    throw new Error(`'sources' is not defined`);
+export default function({modules, model = {}, output, plugins = [], stdout=process.stderr, loglevel='verbose'} = {}) {
+  let target = 'codebot';
+
+  if (!modules){
+    throw new Error(`'modules' is not defined`);
   }
 
   if (!output){
@@ -43,15 +51,15 @@ export default function({sources, model = {}, output, plugins = [], stdout=proce
   // make happens
   async.waterfall([
     cb => {
-      discover({log, sources, output, model: ma})
+      discover({log, modules, output, model: ma})
         .then(res => {
+          log.verbose(target, `processed ${res.length} template modules`);
           cb(null, {items: res, model: ma});
         })
         .catch(cb);
     },
-    _process
+    //_process
   ], (err, res) => {
-    // do something
     if (err){
       return def.reject(err);
     }
@@ -64,7 +72,6 @@ export default function({sources, model = {}, output, plugins = [], stdout=proce
   // Helpers
   function _process(ops, callback){
     let limit = process.env.ASYNC_LIMIT || 2;
-    let target = 'codebot';
 
     let items = ops.items;
     let model = ops.model;
