@@ -27,21 +27,24 @@ export default class SourceItem {
     let p = path.parse(this.dir);
     this.name = p.base;
 
-    this.dynamic = false;
+    this.isDynamic = regex.isDynamic.test(this.name);
 
-    if (regex.isDynamic.test(this.name)){
+    if (this.isDynamic){
       let match = XRegExp.exec(this.name, regex.dynamic);
       let md = XRegExp.exec(this.name, regex.directive);
-      this.dynamic = true;
       this.accesor = match.accesor;
       this.modifier = match.modifier;
       this.directive = md.directive;
     }
     
+    this.isLayer = regex.isLayer.test(this.name);
+
     if (regex.isLayer.test(this.name)){
       let match = XRegExp.exec(this.name, regex.layer);
       this.layer = match.accesor;
     }
+
+    this.isAuto = regex.isAuto.test(this.name);
   }
   /**
    * Override the toString thing

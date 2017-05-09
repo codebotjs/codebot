@@ -1,7 +1,7 @@
 {
   "layer": {
     "app": "./client/app",
-    "routes": "./server/routes"
+    "api": "./server/api"
   },
   "target": [
     {

@@ -65,6 +65,7 @@ u        |$u{target}|write the target as [upperCase*](https://lodash.com/docs#up
 c        |$c{target}|write the target as [camelCase*](https://lodash.com/docs#camelCase)
 s        |$s{target}|write the target as [snakeCase*](https://lodash.com/docs#snakeCase)
 k        |$k{target}|write the target as [kebabCase*](https://lodash.com/docs#kebabCase)
+p        |$p{target}|write the target as [capitalize*](https://lodash.com/docs#capitalize)
 
 **please see the [lodash](https://lodash.com/docs) documentation*
 

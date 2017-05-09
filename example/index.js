@@ -13,13 +13,16 @@ let ops = {
 
 codebot(ops)
   .then(results => {
-    console.log('everything done');
+    //console.log('everything done');
     //console.dir(results);
     console.log('');
     results.items.forEach( m => {
-
       console.log(m.toString(true, 'source-tree'));
-    })
+    });
+    console.log('');
+    results.items.forEach( m => {
+      console.log(m.toString(true, 'output-tree'));
+    });
   })
   .catch(err => {
     console.log('something wrong');

@@ -37,33 +37,12 @@ export default class TemplateModule {
     this.name = this.config.name;
 
     // resolve the source folder
-    this.sourceFolder = path.resolve(this.dir, this.config.src);
+    let sourceFolder = path.resolve(this.dir, this.config.src);
     // the source folder
-    this.sourceRoot = new SourceFolder({dir: this.sourceFolder, model, output});
-    this._expand();
-  }
-
-  /**
-   * Expand the output tree
-   */
-  _expand(){
-    this.root = this._expandFolder(this.sourceRoot);
-  }
-  /**
-   * Expand a folder
-   * @param  {SourceFolder}   folder
-   * @return {TemplateFolder} expanded folder
-   */
-  _expandFolder(folder){
-
-  }
-  /**
-   * Expand file 
-   * @param  {SourceFile} file
-   * @return {Array} expanded files
-   */
-  _expandFile(file){
-    
+    this.sourceRoot = new SourceFolder({dir: sourceFolder, model, output});
+    // expand the tree of templates
+    let expanded = this.sourceRoot.expand(/*$this*/model);
+    this.root = (expanded && expanded.length) ? expanded[0] : null;
   }
   /**
    * Override the toString thing
@@ -74,23 +53,24 @@ export default class TemplateModule {
     if (type === 'source-tree'){
       return this._printSourceTree(colored);
     }
+    if (type === 'output-tree'){
+      return this._printOutputTree(colored);
+    }
     return this.name;
   }
   /**
-   * Print as tree directory
+   * Print the output as tree directory
    * @return {String}
    */
-  _printSourceTree(colored){
+  _printOutputTree(colored){
     let lines = [];
     let name = `[${this.name}]`;
-    name = colored ? chalk.bold.green(name) : name;
+    name = colored ? chalk.green(name) : name;
 
     lines.push(name);
     
     // now print folders
-    this.sourceRoot.folders.forEach( f => {
-      this._printFolder(f, 1, lines, colored);
-    });
+    this._printOutputFolder(this.root, 0, lines, colored, true);
 
     return lines.join('\n');
   }
@@ -100,20 +80,63 @@ export default class TemplateModule {
    * @param  {Integer}          level   tree level
    * @param  {Array}            lines   output lines
    * @param  {Boolean}          colored use colors?
+   * @param  {Boolean}          is the root folder?
    */
-  _printFolder(folder, level, lines, colored=false){
+  _printOutputFolder(folder, level, lines, colored=false, isRoot=false){
     // first print this folder
-    let l = this._tabs(level) + `-${folder.name}`;
-    // TODO: delete me
-    if (folder.dynamic){
-      //l += ` [${folder.accesor} ${folder.modifier} ${folder.directive}]`;
+    if (!isRoot){
+      let l = this._tabs(level) + `-${folder.name}`;
+      l = colored ? chalk.cyan(l) : l;
+      lines.push(l);
     }
-    l = colored ? chalk.cyan(l) : l;
-    lines.push(l);
 
     // now print folders
     folder.folders.forEach( f => {
-      this._printFolder(f, level+1, lines, colored);
+      this._printOutputFolder(f, level+1, lines, colored);
+    });
+    // now print files
+    folder.files.forEach( f => {
+      let l = this._tabs(level+1) + `-${f.name}`;
+      l = colored ? chalk.blue(l) : l;
+      lines.push(l);
+    });
+  }
+  /**
+   * Print the source as tree directory
+   * @return {String}
+   */
+  _printSourceTree(colored){
+    let lines = [];
+    let name = `[${this.name}]`;
+    name = colored ? chalk.green(name) : name;
+
+    lines.push(name);
+    
+    // now print folders
+    this._printSourceFolder(this.sourceRoot, 0, lines, colored, true);
+
+    return lines.join('\n');
+  }
+  /**
+   * Print a template  folder
+   * @param  {SourceFolder}   folder  the template folder
+   * @param  {Integer}          level   tree level
+   * @param  {Array}            lines   output lines
+   * @param  {Boolean}          colored use colors?
+   * @param  {Boolean}          colored use colors?
+   */
+  _printSourceFolder(folder, level, lines, colored=false, isRoot=false){
+    
+    if (!isRoot){
+      // first print this folder
+      let l = this._tabs(level) + `-${folder.name}`;
+      l = colored ? chalk.cyan(l) : l;
+      lines.push(l);
+    }
+    
+    // now print folders
+    folder.folders.forEach( f => {
+      this._printSourceFolder(f, level+1, lines, colored);
     });
     // now print files
     folder.files.forEach( f => {

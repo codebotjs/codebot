@@ -33,24 +33,38 @@ export default class ModelAccesor {
     return this.model;
   }
   /**
-   * Define the $this object on the model 
+   * Define dynamics object on the model 
    * 
    * @param  {String} accesor property expression
    * @return {Object}
    */
-  resolveThis(accesor){
+  resolveDynamic(accesor){
     if (!accesor){
       return null;
     }
     let props = accesor.split('.');
     let dots = props.length;
+    let value;
 
     if (dots > 1){
+      value = _.tail(props).join('.');
       props = _.dropRight(props);
     }
 
     let p = props.join('.');
 
-    return _.get(this.model, p);
+    return {
+      $this: props[0],
+      path: value,
+      values: _.get(this.model, p)
+    };
+  }
+  /**
+   * Resolve the value
+   * @param  {String} prop 
+   * @return {Object}      the value of the property
+   */
+  getValue(prop){
+    _.get(this.model, prop);
   }
 }

@@ -3,7 +3,7 @@
 /**
  * TemplateFolder define an output template folder
  */
-export default TemplateFolder {
+export default class TemplateFolder {
   constructor({name, $this}){
     this.name = name;
     this.$this = $this;
