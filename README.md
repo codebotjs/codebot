@@ -1,4 +1,4 @@
-<big><h1 align="center">codebot</h1></big>
+<big><h1 align="center">{--} CodebotJS</h1></big>
 
 <p align="center">
   <a href="https://npmjs.org/package/codebot">
@@ -29,11 +29,11 @@
 
 ***This project is under development***
 
-Codebot is a tool to make applications from templates and a model.
+Codebot is the easy way to make applications from templates.
 
-The idea is that you need to write the code one time, then use the model.
+The idea is that you need to write the code one time, then use a model.
 
-Think an application, then write it as templates and then use to make multiple apps changin the model, if you need to improve something, change the templates and every app will take the benefit.
+Think an application, write it as templates and then use to make multiple apps changin the model, if you improve something, change the templates and every app will take the benefit.
 
 ### Install
 
@@ -51,7 +51,7 @@ The templates will be searched on the `src` folder
 
 directive|usage      |description
 ---------|-----------|-----------
-\#        |\#layername |layer/folder names
+\#       |\#layername |layer/folder names
 @        |@filename  |automatic file
 ${}      |${target}  |dynamics names
 $this |${$this}|current dynamic name from parent

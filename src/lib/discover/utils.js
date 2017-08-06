@@ -24,8 +24,7 @@ const utils = {
       'c': _.camelCase,
       's': _.snakeCase,
       'k': _.kebabCase,
-      'p': _.capitalize,
-
+      'p': _.capitalize
     };
     let f = func[modifier];
     if (!f){

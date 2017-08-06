@@ -39,10 +39,44 @@ export default class TemplateModule {
     // resolve the source folder
     let sourceFolder = path.resolve(this.dir, this.config.src);
     // the source folder
-    this.sourceRoot = new SourceFolder({dir: sourceFolder, model, output});
+    this.sourceRoot = new SourceFolder({dir: sourceFolder, model, output, isRoot: true});
     // expand the tree of templates
     let expanded = this.sourceRoot.expand(/*$this*/model);
     this.root = (expanded && expanded.length) ? expanded[0] : null;
+  }
+  /**
+   * Get the templates
+   * @return {Array} All templates
+   */
+  getTemplates(){
+    return this._getTemplates(this.root, './');
+  }
+  /**
+   * Recursive way to obtain the files
+   * @param  {TemplateFolder} folder  current folder
+   * @param  {String} relative        relative path
+   * @return {Array}                  template files
+   */
+  _getTemplates(folder, relative){
+    // src folder?
+    let rel = folder.owner.isRoot ? '' : folder.name;
+    // set relative for childs
+    rel = path.join(relative, rel)
+
+    let files =_.map(folder.files, file => {
+     file.relative = relative;
+     file.fullname = path.join(this.output, rel, file.name);
+     return file; 
+    });
+
+    return _.concat(
+      files, 
+      _.flattenDeep(
+          _.map(folder.folders, f => { 
+              return this._getTemplates(f, rel); 
+          })
+        )
+    );
   }
   /**
    * Override the toString thing
@@ -141,10 +175,6 @@ export default class TemplateModule {
     // now print files
     folder.files.forEach( f => {
       let l = this._tabs(level+1) + `-${f.name}`;
-      // TODO: delete me
-      if (f.dynamic){
-        //l += ` [${f.accesor} ${f.modifier} ${f.directive}]`;
-      }
       l = colored ? chalk.blue(l) : l;
       lines.push(l);
     });

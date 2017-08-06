@@ -39,7 +39,11 @@ export default class SourceFile extends SourceItem{
                     this.name.replace(/^@/i, '') 
                   : this.name;
 
-    return [new TemplateFile({name: name, model: this.model, isAuto: this.isAuto })];
+    return [new TemplateFile({
+      name: name,
+      owner: this,
+      isAuto: this.isAuto 
+    })];
   }
   /**
    * Expand dynamics files such as ${}
@@ -69,8 +73,13 @@ export default class SourceFile extends SourceItem{
       name = resolveModifier(this.modifier, name);
     }
     name = this.getName(name);
-    // TODO: delete me
-    return [new TemplateFile({name: name, model: this.model, isAuto: this.isAuto })];
+
+    return [new TemplateFile({
+      name: name,
+      owner: this,
+      isAuto: this.isAuto,
+      $this: model 
+    })];
   }
   /**
    * Expand dynamics files such as ${$this.otherItems}
@@ -104,7 +113,12 @@ export default class SourceFile extends SourceItem{
       let mm = { 
         $this: item
       };
-      return new TemplateFile({name: this.getName(name), model: new ModelAccesor(mm) });
+      return new TemplateFile({
+        name: this.getName(name),
+        owner: this,
+        $model: new ModelAccesor(mm),
+        isAuto: this.isAuto 
+      });
     });
   }
   /**

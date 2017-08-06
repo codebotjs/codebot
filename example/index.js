@@ -16,12 +16,16 @@ codebot(ops)
     //console.log('everything done');
     //console.dir(results);
     console.log('');
-    results.items.forEach( m => {
+    results.modules.forEach( m => {
       console.log(m.toString(true, 'source-tree'));
     });
     console.log('');
-    results.items.forEach( m => {
+    results.modules.forEach( m => {
       console.log(m.toString(true, 'output-tree'));
+    });
+    results.modules.forEach( m => {
+      //let templ = m.getTemplates();
+      //console.log(templ);
     });
   })
   .catch(err => {

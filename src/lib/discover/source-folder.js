@@ -23,9 +23,10 @@ export default class SourceFolder extends SourceItem{
    * @param  {SourceFolder}   options.owner  owner folder as instance of SourceFolder
    * @param  {ModelAccesor}   options.model  the model tuned by ModelAccesor
    */
-  constructor({dir, model, output, owner}){
+  constructor({dir, model, output, owner, isRoot}){
     super({dir, model, output, owner});
 
+    this.isRoot = isRoot === true;
     //
     //Walkthrough the source folder searching templates
     //
@@ -66,18 +67,23 @@ export default class SourceFolder extends SourceItem{
    * @return {Array}                  expanded folder
    */
   expand(submodel){
+    let model = submodel;
+    if (!(submodel instanceof ModelAccesor)){
+      model = new ModelAccesor(submodel);
+    }
+
     // is a layer ?
     if (this.isLayer){
       return this._expandAsLayer();
     }
     // is dynamic ?
     if (this.isDynamic){
-      return this._expandAsDynamic(submodel);
+      return this._expandAsDynamic(model);
     }
 
-    let nf = new TemplateFolder({name: this.name});
+    let nf = new TemplateFolder({name: this.name, owner: this, $this: model});
     // expand the childs
-    this._expandChilds(nf, this.model);
+    this._expandChilds(nf, model);
     return [nf];
   }
   /**
@@ -102,7 +108,11 @@ export default class SourceFolder extends SourceItem{
       if (this.modifier){
         name = resolveModifier(this.modifier, name);
       }
-      let nf = new TemplateFolder({name: name});
+      let nf = new TemplateFolder({
+        name: name,
+        owner: this,
+        $this: model
+      });
       let mm = { $this: item };
 
       // expand the childs with the submodel
@@ -119,7 +129,10 @@ export default class SourceFolder extends SourceItem{
   _expandAsLayer(){
     // resolve the layer with the root model
     let name = this.model.getLayer(this.layer);
-    let nf = new TemplateFolder({name: name});
+    let nf = new TemplateFolder({
+      name: name,
+      owner: this
+    });
     // expand the childs
     this._expandChilds(nf, this.model);
     return [ nf ];

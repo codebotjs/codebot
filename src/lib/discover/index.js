@@ -4,6 +4,7 @@ import path from 'path';
 import Q from 'q';
 import async from 'async';
 import fs from 'fs-extra';
+import _ from 'lodash';
 import TemplateModule from './template-module';
 
 const target = 'discover';
@@ -39,6 +40,7 @@ export default function({log, modules, output, model}) {
       if (err){
         return def.reject(err);
       }
+      //let items = _.flatten(_.map(items, m => { return m.getTemplates(); }));
       def.resolve(items);
     });
 

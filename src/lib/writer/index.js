@@ -7,15 +7,17 @@ import path from 'path';
 const target = 'writer';
 
 export default function({log, item, content}){
-  var def = Q.defer();
+  const def = Q.defer();
   
-  var dir = path.dirname(item.output);
+  let dir = path.dirname(item.fullname);
 
   // create forlder
   fs.ensureDirSync(dir);
 
-  log.verbose(target, `writing ${item.output}`);
-  fs.writeFile(item.output, content, (err) => {
+  let rel = path.join(item.relative, item.name);
+
+  log.verbose(target, `writing ${rel}`);
+  fs.writeFile(item.fullname, content, (err) => {
     if (err){
       log.error(target, err);
       return def.reject(err);

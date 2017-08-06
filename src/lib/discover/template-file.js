@@ -1,18 +1,16 @@
 'use strict';
 
+import TemplateItem from './template-item';
+
 /**
  * TemplateFile define an output template file
  */
-export default class TemplateFolder {
-  constructor({name, $this}){
-    this.name = name;
-    this.$this = $this;
+export default class TemplateFile extends TemplateItem {
+  constructor({name, owner, $this, $parent, isAuto}){
+    super({name, owner, $this, $parent});
+    this.isAuto = isAuto;
   }
-  /**
-   * Override the toString thing
-   * @return {String} Custom output
-   */
-  toString(){
-    return this.name;
+  templatePath(){
+    return this.owner.dir;
   }
 }

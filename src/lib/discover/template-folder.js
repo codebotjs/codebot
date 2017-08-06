@@ -1,21 +1,15 @@
 'use strict';
 
+import TemplateItem from './template-item';
+
 /**
  * TemplateFolder define an output template folder
  */
-export default class TemplateFolder {
-  constructor({name, $this}){
-    this.name = name;
-    this.$this = $this;
+export default class TemplateFolder extends TemplateItem {
+  constructor({name, owner, $this, $parent}){
+    super({name, owner, $this, $parent});
 
     this.folders = [];
     this.files = [];
-  }
-  /**
-   * Override the toString thing
-   * @return {String} Custom output
-   */
-  toString(){
-    return this.name;
   }
 }

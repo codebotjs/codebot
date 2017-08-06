@@ -2,6 +2,7 @@
 
 import async from 'async';
 import Q from 'q';
+import _ from 'lodash';
 // actors
 import Log from './lib/log';
 import discover from './lib/discover';
@@ -20,7 +21,7 @@ process.on('uncaughtException', function (err) {
 /**
  * Codebot
  *
- * Codebot is a tool to make applications from templates and a model.
+ * Codebot is an easy way to make applications from templates.
  * 
  * @param  {String|Array} options.modules path/s of modules
  * @param  {Object}       options.model   The model
@@ -54,7 +55,11 @@ export default function({modules, model = {}, output, plugins = [], stdout=proce
       discover({log, modules, output, model: ma})
         .then(res => {
           log.verbose(target, `processed ${res.length} template modules`);
-          cb(null, {items: res, model: ma});
+
+          cb(null, {
+            modules: res,
+            model: ma
+          });
         })
         .catch(cb);
     },
@@ -73,7 +78,7 @@ export default function({modules, model = {}, output, plugins = [], stdout=proce
   function _process(ops, callback){
     let limit = process.env.ASYNC_LIMIT || 2;
 
-    let items = ops.items;
+    let items = _.flatten(_.map(ops.modules, m => { return m.getTemplates(); }));;
     let model = ops.model;
 
     log.info(target, `processing ${items.length} items`);
@@ -82,10 +87,9 @@ export default function({modules, model = {}, output, plugins = [], stdout=proce
       async.each(
         items,
         (item, ocb) => {
-          
           async.waterfall([
             (cb) => {
-              transpiler({log, item: item, model})
+              transpiler({log, item: item})
                 .then(res => {
                   cb(null, res);
                 })

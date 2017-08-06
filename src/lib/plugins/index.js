@@ -5,7 +5,7 @@ import Q from 'q';
 const target = 'plugins';
 
 export default function({log, plugins, item, content}){
-  var def = Q.defer();
+  const def = Q.defer();
   
   if (!plugins){
     def.resolve({item, content});
