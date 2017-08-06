@@ -64,7 +64,7 @@ export default class TemplateModule {
     rel = path.join(relative, rel)
 
     let files =_.map(folder.files, file => {
-     file.relative = relative;
+     file.relative = rel;
      file.fullname = path.join(this.output, rel, file.name);
      return file; 
     });

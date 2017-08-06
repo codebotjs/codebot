@@ -63,7 +63,7 @@ export default function({modules, model = {}, output, plugins = [], stdout=proce
         })
         .catch(cb);
     },
-    //_process
+    _process
   ], (err, res) => {
     if (err){
       return def.reject(err);
@@ -89,7 +89,7 @@ export default function({modules, model = {}, output, plugins = [], stdout=proce
         (item, ocb) => {
           async.waterfall([
             (cb) => {
-              transpiler({log, item: item})
+              transpiler({log, item: item, model: model})
                 .then(res => {
                   cb(null, res);
                 })
