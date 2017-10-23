@@ -17,12 +17,12 @@ codebot(ops)
     //console.dir(results);
     console.log('');
     results.modules.forEach( m => {
-      console.log(m);
-      //console.log(m.toString(true, 'source-tree'));
+      //console.log(m);
+      console.log(m.toString(true, 'source-tree'));
     });
     console.log('');
     results.modules.forEach( m => {
-      //console.log(m.toString(true, 'output-tree'));
+      console.log(m.toString(true, 'output-tree'));
     });
     results.modules.forEach( m => {
       //let templ = m.getTemplates();

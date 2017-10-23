@@ -44,6 +44,10 @@ export default class SourceFile extends SourceItem{
                     this.name.replace(/^@/i, '') 
                   : this.name;
 
+    if (this.isInject){
+      name = this.name.replace(/^!/i, '');
+    }
+
     return [new TemplateFile({
       name: name,
       owner: this,

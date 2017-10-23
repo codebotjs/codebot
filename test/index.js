@@ -1,6 +1,14 @@
 import 'babel-polyfill';
 import assert from 'assert';
 import codebot from "../src"
+import path from 'path';
+
+var modules = [
+  path.resolve(path.join(__dirname, '/cases/angular')),
+  path.resolve(path.join(__dirname, '/cases/api'))
+];
+
+var output = path.resolve(path.join(__dirname, '/outputs'));
 
 describe('codebot', function() {
 
@@ -17,7 +25,7 @@ describe('codebot', function() {
 
     it('should throw an Error when output is not defined', (done) => {
       try {
-        codebot({ sources: 'some/path' });
+        codebot({ modules: modules });
         done(new Error('Can\t be run this'));
       } catch(err){
         done();
@@ -26,7 +34,7 @@ describe('codebot', function() {
 
     it('should throw an Error when sources is not defined', (done) => {
       try {
-        codebot({ output: 'some/path' });
+        codebot({ output: output });
         done(new Error('Can\t be run this'));
       } catch(err){
         done();
@@ -34,7 +42,8 @@ describe('codebot', function() {
     });
 
     it('should be run wen sources/output are defined', () => {
-      var cbot = codebot({ sources: 'some/path', output: 'some/path' });
+      
+      var cbot = codebot({ modules: modules, output: output });
       assert.equal(typeof cbot, 'object', 'return an object');
       assert.equal(true, cbot['then'] !== undefined, 'need to be a promise');
     });

@@ -5,7 +5,10 @@ class <%- _.capitalize($this.name) %> {
 }
 
 /*
- <%- JSON.stringify($this) %>
- <%- JSON.stringify($parent) %>
- <%- JSON.stringify($model) %>
+ $this
+ <%- JSON.stringify($this, null, 2) %>
+ $parent
+ <%- JSON.stringify($parent, null, 1) %>
+ $model
+ <%- JSON.stringify($model, null, 2) %>
 */
