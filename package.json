@@ -10,10 +10,9 @@
   "scripts": {
     "clean": "rimraf dist",
     "lint": "eslint src test",
-    "check": "npm run lint -s && dependency-check package.json --entry src",
     "watch": "watch 'npm run build' src test",
     "test": "./node_modules/mocha/bin/mocha --compilers js:babel-core/register",
-    "prebuild": "npm run check -s && npm run clean -s",
+    "prebuild": "npm run clean -s",
     "build": "babel --optional runtime src -d dist",
     "postbuild": "npm run test -s",
     "coverage": "babel-node node_modules/isparta/bin/isparta cover test/index.js",
@@ -41,8 +40,7 @@
   },
   "homepage": "https://github.com/delmosaurio/codebot#readme",
   "devDependencies": {
-    "babel": "^6.23.0",
-    "babel-cli": "^6.18.0",
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.18.2",
     "babel-eslint": "^4.1.6",
     "babel-plugin-transform-class-properties": "^6.24.1",

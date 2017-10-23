@@ -1,5 +1,9 @@
 // add code here
 
+class <%- _.capitalize($this.name) %> {
+
+}
+
 /*
  $this
  <%- JSON.stringify($this, null, 2) %>

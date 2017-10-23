@@ -6,7 +6,7 @@ import fs from 'fs-extra';
 
 var modules = [
   path.resolve(path.join(__dirname, '/cases/angular')),
-  path.resolve(path.join(__dirname, '/cases/server'))
+  path.resolve(path.join(__dirname, '/cases/api'))
 ];
 
 var output = path.resolve(path.join(__dirname, '/outputs'));

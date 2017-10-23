@@ -13,14 +13,20 @@ function _resolveContext(item, model){
 
   if (item.$this){
     $this = item.$this.getModel();
+    //
+    if ($this.hasOwnProperty('$parent')){
+      $parent = $this.$parent.getModel();
+    }
+    if ($parent.hasOwnProperty('$this')){
+      $parent = $parent['$this'];
+    }
     if ($this.hasOwnProperty('$this')){
       $this = $this['$this'];
     }
   }
-//console.log(item.$parent)
+
   if (item.$parent){
-    console.log(item.$parent)
-    $parent = item.$parent.getModel();
+    $parent = item.$parent;
   }
 
   if (model){
@@ -28,7 +34,7 @@ function _resolveContext(item, model){
   }
 
   // set template context
-  return { $this, $parent, $model };
+  return { $this, $parent, $model, _: _ };
 }
 
 export default function({log, item, model, ops}){

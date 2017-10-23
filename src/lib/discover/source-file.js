@@ -52,7 +52,8 @@ export default class SourceFile extends SourceItem{
       name: name,
       owner: this,
       isAuto: this.isAuto,
-      $this: model
+      $this: model,
+      $parent: model.$parent
     })];
   }
   /**
@@ -88,7 +89,8 @@ export default class SourceFile extends SourceItem{
       name: name,
       owner: this,
       isAuto: this.isAuto,
-      $this: model
+      $this: model,
+      $parent: model.$parent
     })];
   }
   /**
@@ -102,7 +104,8 @@ export default class SourceFile extends SourceItem{
     
     return _.map(childs, item => {
       let mm = {
-        $this: {}
+        $this: {},
+        $parent: submodel
       }
       mm.$this[obj.path] = item;
       return this.expand(mm);
@@ -121,13 +124,15 @@ export default class SourceFile extends SourceItem{
         name = resolveModifier(this.modifier, name);
       }
       let mm = { 
-        $this: item
+        $this: item,
+        $parent: submodel
       };
       return new TemplateFile({
         name: this.getName(name),
         owner: this,
         $model: new ModelAccesor(mm),
-        isAuto: this.isAuto
+        isAuto: this.isAuto,
+        $parent: submodel
       });
     });
   }
