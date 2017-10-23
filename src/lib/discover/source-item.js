@@ -45,6 +45,7 @@ export default class SourceItem {
     }
 
     this.isAuto = regex.isAuto.test(this.name);
+    this.isInject = regex.isInject.test(this.name);
   }
   /**
    * Override the toString thing

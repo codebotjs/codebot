@@ -51,10 +51,11 @@ The templates will be searched on the `src` folder
 
 directive|usage      |description
 ---------|-----------|-----------
-\#       |\#layername |layer/folder names
+\#       |\#layername|layer/folder names
 @        |@filename  |automatic file
+!        |!filename  |injector file
 ${}      |${target}  |dynamics names
-$this |${$this}|current dynamic name from parent
+$this    |${$this}   |current dynamic name from parent
 
 **modifiers**
   
@@ -111,7 +112,7 @@ p        |$p{target}|write the target as [capitalize*](https://lodash.com/docs#c
   - ${target}
     - @${$current}.controller.js
     - @${$current.view}.html
-    - config.js
+    - !config.js
   - @app.config.js
   - app.js
 ```
@@ -126,7 +127,7 @@ p        |$p{target}|write the target as [capitalize*](https://lodash.com/docs#c
 
 ```js
 ./client/app/actor/actor.controller.js       // writed every time
-./client/app/actor/config.js                 // writed if the output is not exists
+./client/app/actor/config.js                 // writed/injected every time
 ./client/app/actor/add.html                  // writed every time
 
 ./client/app/director/director.controller.js // writed every time

@@ -8,7 +8,7 @@ import TemplateItem from './template-item';
 export default class TemplateFile extends TemplateItem {
   constructor({name, owner, $this, $parent, isAuto}){
     super({name, owner, $this, $parent});
-    this.isAuto = isAuto;
+    this.isAuto = isAuto === isAuto;
   }
   templatePath(){
     return this.owner.dir;

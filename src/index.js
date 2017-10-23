@@ -63,7 +63,7 @@ export default function({modules, model = {}, output, plugins = [], stdout=proce
         })
         .catch(cb);
     },
-    _process
+    //_process
   ], (err, res) => {
     if (err){
       return def.reject(err);

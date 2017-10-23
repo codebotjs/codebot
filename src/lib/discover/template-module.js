@@ -41,8 +41,8 @@ export default class TemplateModule {
     // the source folder
     this.sourceRoot = new SourceFolder({dir: sourceFolder, model, output, isRoot: true});
     // expand the tree of templates
-    let expanded = this.sourceRoot.expand(/*$this*/model);
-    this.root = (expanded && expanded.length) ? expanded[0] : null;
+    //let expanded = this.sourceRoot.expand(/*$this*/model);
+    //this.root = (expanded && expanded.length) ? expanded[0] : null;
   }
   /**
    * Get the templates

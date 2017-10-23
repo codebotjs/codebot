@@ -23,7 +23,7 @@ export default class SourceFolder extends SourceItem{
    * @param  {SourceFolder}   options.owner  owner folder as instance of SourceFolder
    * @param  {ModelAccesor}   options.model  the model tuned by ModelAccesor
    */
-  constructor({dir, model, output, owner, isRoot}){
+  constructor({dir, model, $this, output, owner, isRoot}){
     super({dir, model, output, owner});
 
     this.isRoot = isRoot === true;

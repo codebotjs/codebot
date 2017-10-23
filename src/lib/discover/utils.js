@@ -13,9 +13,10 @@ const utils = {
     isLayer: /^#.+$/i,
       layer: XRegExp('^[#]{1}(?<accesor>.+$)', 'x'),
       isAuto: /^@.*$/i,
-      isDynamic: /^@?\$(:?[cklsup]{1})?{[\$\w\.]+}.*$/i,
-      dynamic: XRegExp('^@?\\$(?<modifier>[cklsup]{1})?{(?<accesor>[\\$\\w\\.]+)}.*$', 'x'),
-      directive: XRegExp('(?<directive>^@?\\$(:?[cklsup]{1})?{[\\$\\w\\.]+}).*$', 'x')
+      isInject: /^!.*$/i,
+      isDynamic: /^(@|!)?\$(:?[cklsup]{1})?{[\$\w\.]+}.*$/i,
+      dynamic: XRegExp('^(@|!)?\\$(?<modifier>[cklsup]{1})?{(?<accesor>[\\$\\w\\.]+)}.*$', 'x'),
+      directive: XRegExp('(?<directive>^(@|!)?\\$(:?[cklsup]{1})?{[\\$\\w\\.]+}).*$', 'x')
   },
   resolveModifier: (modifier, name) => {
     const func = {

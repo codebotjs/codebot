@@ -17,8 +17,9 @@ function _resolveContext(item, model){
       $this = $this['$this'];
     }
   }
-
+//console.log(item.$parent)
   if (item.$parent){
+    console.log(item.$parent)
     $parent = item.$parent.getModel();
   }
 

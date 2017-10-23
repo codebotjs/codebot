@@ -31,6 +31,11 @@ export default class SourceFile extends SourceItem{
    * @return {Array}                  expanded files
    */
   expand(submodel){
+    let model = submodel;
+    if (!(submodel instanceof ModelAccesor)){
+      model = new ModelAccesor(submodel);
+    }
+    
     if (this.isDynamic){
       return this._expandAsDynamic(submodel);
     }
@@ -42,13 +47,14 @@ export default class SourceFile extends SourceItem{
     return [new TemplateFile({
       name: name,
       owner: this,
-      isAuto: this.isAuto 
+      isAuto: this.isAuto,
+      $this: model
     })];
   }
   /**
    * Expand dynamics files such as ${}
    * @param  {ModelAccesor|Object} submodel current model
-   * @return {Array}                        expanded folders
+   * @return {Array}               expanded folders
    */
   _expandAsDynamic(submodel){
     let model = submodel;
@@ -78,7 +84,7 @@ export default class SourceFile extends SourceItem{
       name: name,
       owner: this,
       isAuto: this.isAuto,
-      $this: model 
+      $this: model
     })];
   }
   /**
@@ -117,7 +123,7 @@ export default class SourceFile extends SourceItem{
         name: this.getName(name),
         owner: this,
         $model: new ModelAccesor(mm),
-        isAuto: this.isAuto 
+        isAuto: this.isAuto
       });
     });
   }
