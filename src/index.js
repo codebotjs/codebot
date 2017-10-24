@@ -31,7 +31,7 @@ process.on('uncaughtException', function (err) {
  * @param  {Boolean}      simulate        Templating simulation
  * @return {Promise}
  */
-export default function({modules, model = {}, output, plugins = [], stdout=process.stderr, loglevel='verbose', simulate=false, writer} = {}) {
+function codebot({modules, model = {}, output, plugins = [], stdout=process.stderr, loglevel='verbose', simulate=false, writer} = {}) {
   let target = 'codebot';
 
   if (!modules){
@@ -73,3 +73,5 @@ export default function({modules, model = {}, output, plugins = [], stdout=proce
 
   return def.promise;
 }
+
+module.exports = codebot;
