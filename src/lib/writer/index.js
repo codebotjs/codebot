@@ -17,9 +17,6 @@ const target = 'writer';
 export default function({log, item, content, simulate}){
   let dir = path.dirname(item.fullname);
 
-  // create forlder
-  fs.ensureDirSync(dir);
-
   let rel = path.join(item.relative, item.name);
 
   return (writeFunc) => {
@@ -30,7 +27,9 @@ export default function({log, item, content, simulate}){
       def.resolve(item);
       return def.promise;
     }
+    //
     // if not run local
+    fs.ensureDirSync(dir); // create forlder
     log.verbose(target, `writing ${rel}`);
     if (!simulate){
       fs.writeFile(item.fullname, content, (err) => {
