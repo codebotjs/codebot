@@ -23,11 +23,11 @@
     {
       "name": "movie", 
       "plurals": "movies",
-      "view": [
-        "add",
-        "edit",
-        "search"
-      ]
+      "view": {
+        "add": { "foo": "bar"},
+        "edit": {},
+        "search": {}
+      }
     }
   ]
 }

@@ -7,7 +7,7 @@ import _ from 'lodash';
 import Log from './lib/log';
 import discover from './lib/discover';
 import ModelAccesor from './lib/model-accesor';
-import processor from './processor';
+import processor from './lib/processor';
 
 // set the async parallel limit
 process.env.ASYNC_LIMIT = process.env.ASYNC_LIMIT || 5;
@@ -27,9 +27,10 @@ process.on('uncaughtException', function (err) {
  * @param  {Array}        plugins         Plugins to apply 
  * @param  {Object}       stdout          I/O output
  * @param  {String}       loglevel        The log level (verbose, info)
+ * @param  {Boolean}      simulate        Templating simulation
  * @return {Promise}
  */
-export default function({modules, model = {}, output, plugins = [], stdout=process.stderr, loglevel='verbose'} = {}) {
+export default function({modules, model = {}, output, plugins = [], stdout=process.stderr, loglevel='verbose', simulate=false} = {}) {
   let target = 'codebot';
 
   if (!modules){
@@ -61,7 +62,7 @@ export default function({modules, model = {}, output, plugins = [], stdout=proce
         })
         .catch(cb);
     },
-    processor(log)
+    processor(log, simulate)
   ], (err, res) => {
     if (err){
       return def.reject(err);

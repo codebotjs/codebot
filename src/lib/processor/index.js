@@ -2,12 +2,13 @@
 
 import async from 'async';
 import _ from 'lodash';
+import fs from 'fs';
 
-import transpiler from './lib/transpiler';
-import plugins from './lib/plugins';
-import writer from './lib/writer';
+import transpiler from '../transpiler';
+import plugins from '../plugins';
+import writer from '../writer';
 
-export default function(log) {
+export default function(log, simulate) {
 	let target = 'processor';
 
 	return (ops, callback) => {
@@ -16,6 +17,11 @@ export default function(log) {
 	  try{
 		  let items = _.flatten(_.map(ops.modules, m => { return m.getTemplates(); }));;
 	  	let model = ops.model;
+
+	  	// filter auto, inject and newfiles
+	  	items = _.filter(items, i => {
+	  		return (i.isAuto || i.isInject) || !fs.existsSync(i.fullname);
+	  	});
 
 	  	log.info(target, `processing ${items.length} items`);
 
@@ -38,7 +44,7 @@ export default function(log) {
 	              .catch(cb);
 	          },
 	          (res, cb) => {
-	            writer({log, item: res.item, content: res.content})
+	            writer({log, item: res.item, content: res.content, simulate: simulate})
 	              .then(res => {
 	                cb(null, res);
 	              })

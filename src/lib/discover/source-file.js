@@ -52,6 +52,7 @@ export default class SourceFile extends SourceItem{
       name: name,
       owner: this,
       isAuto: this.isAuto,
+      isInject: this.isInject,
       $this: model,
       $parent: model.$parent
     })];
@@ -78,6 +79,9 @@ export default class SourceFile extends SourceItem{
       if (childs instanceof Array){
         return this._expandAsArrayOfThis(obj, model);
       }
+      if (typeof childs === 'object'){
+        return this._expandAsArrayOfObject(childs, obj, model);
+      }
     }
     let name = _.get(obj.values, obj.path);
     if (this.modifier){
@@ -89,6 +93,7 @@ export default class SourceFile extends SourceItem{
       name: name,
       owner: this,
       isAuto: this.isAuto,
+      isInject: this.isInject,
       $this: model,
       $parent: model.$parent
     })];
@@ -101,14 +106,24 @@ export default class SourceFile extends SourceItem{
    */
   _expandAsArrayOfThis(obj, submodel){
     let childs = _.get(obj.values, obj.path);
-    
-    return _.map(childs, item => {
-      let mm = {
-        $this: {},
-        $parent: submodel
+    return _.map(childs, key => {
+      var name = key;
+      if (this.modifier){
+        name = resolveModifier(this.modifier, key);
       }
-      mm.$this[obj.path] = item;
-      return this.expand(mm);
+      let mm = { 
+        $this: {
+          $key: key
+        },
+        $parent: submodel
+      };
+      return new TemplateFile({
+        name: this.getName(name),
+        owner: this,
+        $this: new ModelAccesor(mm),
+        isAuto: this.isAuto,
+        isInject: this.isInject
+      });
     });
   }
   /**
@@ -120,6 +135,13 @@ export default class SourceFile extends SourceItem{
   _expandAsArray(obj, submodel){
     return _.map(obj.values, item => {
       let name = name = _.get(item, obj.path);
+      if (typeof name === 'object'){
+        if (name instanceof Array){
+          return this._expandAsArrayOfArray(name, obj, submodel);
+        }
+        return this._expandAsArrayOfObject(name, obj, submodel);
+      }
+
       if (this.modifier){
         name = resolveModifier(this.modifier, name);
       }
@@ -130,9 +152,63 @@ export default class SourceFile extends SourceItem{
       return new TemplateFile({
         name: this.getName(name),
         owner: this,
+        $this: new ModelAccesor(mm),
+        isAuto: this.isAuto,
+        isInject: this.isInject
+      });
+    });
+  }
+  /**
+   * Expand dynamics files such as ${target.arrayObject}
+   * @param  {Object} child                 the child object
+   * @param  {String} obj                   the resolved object
+   * @param  {ModelAccesor|Object} submodel current model
+   * @return {Array}                        expanded files
+   */
+  _expandAsArrayOfArray(child, obj, submodel){
+    return _.map(child, item => {
+      if (this.modifier){
+        item = resolveModifier(this.modifier, item);
+      }
+      let mm = { 
+        $this: item,
+        $parent: submodel
+      };
+      return new TemplateFile({
+        name: this.getName(item),
+        owner: this,
         $model: new ModelAccesor(mm),
         isAuto: this.isAuto,
+        isInject: this.isInject
+      });
+    });
+  }
+  /**
+   * Expand dynamics files such as ${target.object}
+   * @param  {Object} child                 the child object
+   * @param  {String} obj                   the resolved object
+   * @param  {ModelAccesor|Object} submodel current model
+   * @return {Array}                        expanded files
+   */
+  _expandAsArrayOfObject(child, obj, submodel){
+    return _.map(_.keys(child), key => {
+      var name = key;
+      if (this.modifier){
+        name = resolveModifier(this.modifier, key);
+      }
+      let mm = { 
+        $this: {
+          $key: key
+        },
         $parent: submodel
+      };
+      mm.$this = Object.assign({}, mm.$this, child[key]);
+      return new TemplateFile({
+        name: this.getName(name),
+        owner: this,
+        $this: new ModelAccesor(mm),
+        isAuto: this.isAuto,
+        isInject: this.isInject
       });
     });
   }

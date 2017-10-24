@@ -34,7 +34,7 @@ function _resolveContext(item, model){
   }
 
   // set template context
-  return { $this, $parent, $model, _: _ };
+  return { $this, $parent, $model };
 }
 
 export default function({log, item, model, ops}){

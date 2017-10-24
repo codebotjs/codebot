@@ -70,7 +70,61 @@ p        |$p{target}|write the target as [capitalize*](https://lodash.com/docs#c
 
 **please see the [lodash](https://lodash.com/docs) documentation*
 
-**Example**
+## Usage
+
+```js
+import codebot from 'codebot';
+
+let model = {
+  foo: 'bar'
+};
+
+let ops = {
+  modules: [
+    '/path/from/templates/module1',
+    'path/from/templates/module2'
+  ],
+  output: '/path/to/',
+  model: model
+};
+
+codebot(ops)
+  .then(results => {
+    // all tamplates are processed
+
+    // show the trees
+    results.modules.forEach( m => {
+      console.log(m.toString(true, 'source-tree'));
+    });
+    console.log('');
+    results.modules.forEach( m => {
+      console.log(m.toString(true, 'output-tree'));
+    });
+  })
+  .catch(err => {
+    console.log(err);
+  });
+```
+
+**The inject file example**
+
+*the transpiler match a full line with the `codebot:inject` thing*
+
+```js
+  // !some.js
+  // inject:codebot
+  console.log($this.name);
+  // endinject
+```
+
+```html
+  // !some.html
+  <!-- inject:codebot -->
+  <h1><%= $this.title %></h1>
+  <!-- endinject -->
+```
+
+## Example
 
 ```js
 //model.json
