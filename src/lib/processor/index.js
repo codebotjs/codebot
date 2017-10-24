@@ -6,10 +6,18 @@ import fs from 'fs';
 
 import transpiler from '../transpiler';
 import plugins from '../plugins';
-import writer from '../writer';
+import _writer from '../writer';
 
-export default function(log, simulate) {
+/**
+ * Precessing all the items
+ * @param  {Object} options.log        the log
+ * @param  {Boolean} options.simulate  define if is a simulation
+ * @param  {Function} options.writer   A callback function(item, content) to customize the file writes
+ * @return {Promise}                 
+ */
+export default function({log, simulate, writer}) {
 	let target = 'processor';
+	let ignoreOverride = writer !== undefined; 
 
 	return (ops, callback) => {
 	  let limit = process.env.ASYNC_LIMIT || 2;
@@ -19,9 +27,11 @@ export default function(log, simulate) {
 	  	let model = ops.model;
 
 	  	// filter auto, inject and newfiles
-	  	items = _.filter(items, i => {
-	  		return (i.isAuto || i.isInject) || !fs.existsSync(i.fullname);
-	  	});
+	  	if (!ignoreOverride){
+		  	items = _.filter(items, i => {
+		  		return (i.isAuto || i.isInject) || !fs.existsSync(i.fullname);
+		  	});
+	  	}
 
 	  	log.info(target, `processing ${items.length} items`);
 
@@ -44,7 +54,7 @@ export default function(log, simulate) {
 	              .catch(cb);
 	          },
 	          (res, cb) => {
-	            writer({log, item: res.item, content: res.content, simulate: simulate})
+	            _writer({log, item: res.item, content: res.content, simulate: simulate})(writer)
 	              .then(res => {
 	                cb(null, res);
 	              })

@@ -25,12 +25,13 @@ process.on('uncaughtException', function (err) {
  * @param  {Object}       options.model   The model
  * @param  {String}       output          Destination folder
  * @param  {Array}        plugins         Plugins to apply 
+ * @param  {Function}     writer          A callback function(item, content) to customize the file writes
  * @param  {Object}       stdout          I/O output
  * @param  {String}       loglevel        The log level (verbose, info)
  * @param  {Boolean}      simulate        Templating simulation
  * @return {Promise}
  */
-export default function({modules, model = {}, output, plugins = [], stdout=process.stderr, loglevel='verbose', simulate=false} = {}) {
+export default function({modules, model = {}, output, plugins = [], stdout=process.stderr, loglevel='verbose', simulate=false, writer} = {}) {
   let target = 'codebot';
 
   if (!modules){
@@ -62,7 +63,7 @@ export default function({modules, model = {}, output, plugins = [], stdout=proce
         })
         .catch(cb);
     },
-    processor(log, simulate)
+    processor({log, simulate, writer})
   ], (err, res) => {
     if (err){
       return def.reject(err);

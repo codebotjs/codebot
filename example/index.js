@@ -2,6 +2,10 @@ import path from 'path';
 import fs from 'fs-extra';
 import codebot from '../src/';
 
+let writer = (item, content) => {
+  //console.log(item.fullname);
+};
+
 let ops = {
   modules: [
     path.resolve(path.join(__dirname, '/templates/angular')),
@@ -10,7 +14,8 @@ let ops = {
   ],
   output: path.resolve(path.join(__dirname, '/output')),
   model: fs.readJsonSync(path.join(__dirname, '/templates/model.json')),
-  simulate: false
+  //simulate: false,
+  //writer
 };
 
 codebot(ops)
