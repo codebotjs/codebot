@@ -129,6 +129,12 @@ export default class SourceFolder extends SourceItem{
   _expandAsLayer(){
     // resolve the layer with the root model
     let name = this.model.getLayer(this.layer);
+    if (!name){
+      // if the layer is not defined in the model
+      // exclude the module
+      return [];
+      //throw new Error(`Invalid layer '#${this.layer}'`);
+    }
     let nf = new TemplateFolder({
       name: name,
       owner: this

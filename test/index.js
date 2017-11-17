@@ -18,7 +18,7 @@ describe('codebot', function() {
 
     it('should throw an Error when sources/output is not defined', (done) => {
       try {
-        codebot();
+        codebot({ loglevel: 'error' });
         done(new Error('Can\t be run this'));
       } catch(err){
         done();
@@ -27,7 +27,7 @@ describe('codebot', function() {
 
     it('should throw an Error when output is not defined', (done) => {
       try {
-        codebot({ modules: modules });
+        codebot({ loglevel: 'error', modules: modules });
         done(new Error('Can\t be run this'));
       } catch(err){
         done();
@@ -36,7 +36,7 @@ describe('codebot', function() {
 
     it('should throw an Error when sources is not defined', (done) => {
       try {
-        codebot({ output: output });
+        codebot({ loglevel: 'error', output: output });
         done(new Error('Can\t be run this'));
       } catch(err){
         done();
@@ -45,7 +45,7 @@ describe('codebot', function() {
 
     it('should be run wen sources/output are defined', () => {
       
-      var cbot = codebot({ modules: modules, output: output, model });
+      var cbot = codebot({ loglevel: 'error', modules: modules, output: output, model });
       assert.equal(typeof cbot, 'object', 'return an object');
       assert.equal(true, cbot['then'] !== undefined, 'need to be a promise');
     });
