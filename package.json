@@ -1,6 +1,6 @@
 {
   "name": "codebot",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Codebot is a tool to make applications from templates and a model..",
   "main": "dist/index.js",
   "files": [
