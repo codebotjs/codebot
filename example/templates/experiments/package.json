@@ -1,0 +1,6 @@
+{
+	"codebot": { 
+		"src": "./",
+		"ignore": [ "package.json" ]
+	}
+}

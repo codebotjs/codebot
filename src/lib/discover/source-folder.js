@@ -23,7 +23,7 @@ export default class SourceFolder extends SourceItem{
    * @param  {SourceFolder}   options.owner  owner folder as instance of SourceFolder
    * @param  {ModelAccesor}   options.model  the model tuned by ModelAccesor
    */
-  constructor({dir, model, $this, output, owner, isRoot}){
+  constructor({dir, model, $this, output, owner, isRoot, ignore}){
     super({dir, model, output, owner});
 
     this.isRoot = isRoot === true;
@@ -32,6 +32,16 @@ export default class SourceFolder extends SourceItem{
     //
     // map the files/folders stats
     let nfiles = fs.readdirSync(this.dir);
+
+    // filter codebot.json
+    if (ignore) {
+      nfiles = _.filter(nfiles, f => {
+        return !_.some(ignore, i => {
+          return new RegExp(_.escapeRegExp(i), 'ig').test(f);
+        });
+      });
+    }
+    
     let items = _.map(nfiles, f => {
       let fullname = path.resolve(this.dir, f);
       let s = fs.statSync(fullname);

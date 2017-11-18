@@ -43,9 +43,9 @@ npm i --save-dev codebot
 
 ### Templates
 
-Codebot use [ejs](https://www.npmjs.com/package/ejs) as template engine
+Codebot use [ejs](https://www.npmjs.com/package/ejs) as default template engine
 
-The templates will be searched on the `src` folder
+If the `src` is not defined on `/path/from/module/codebot.json`, the templates will be searched on the `/path/from/module/src/` folder
 
 ### Directives to filenames and folders
 
@@ -53,11 +53,11 @@ directive|usage      |description
 ---------|-----------|-----------
 \#       |\#layername|layer/folder names
 @        |@filename  |automatic file
-!        |!filename  |injector file
+!        |!filename  |injector file (not supported yet)
 ${}      |${target}  |dynamics names
 $this    |${$this}   |current dynamic name from parent
 
-**modifiers**
+**Modifiers**
   
 character|usage     |description
 ---------|----------|-----------
@@ -69,6 +69,29 @@ k        |$k{target}|write the target as [kebabCase*](https://lodash.com/docs#ke
 p        |$p{target}|write the target as [capitalize*](https://lodash.com/docs#capitalize)
 
 **please see the [lodash](https://lodash.com/docs) documentation*
+
+**Configuration file**
+
+```js
+// codebot.json
+{
+  "src": "the_source/",
+  "ignore": [ "some_file/expression" ]
+}
+```
+
+*NOTE:* you can set the config into the `package.json` like 
+
+```js
+{
+  "name": "my-awesome-template",
+  ....
+  "codebot": {
+    "src": "the_source/"
+  }
+  ....
+}
+```
 
 ## Usage
 
@@ -106,7 +129,7 @@ codebot(ops)
   });
 ```
 
-**The inject file example**
+**The inject file example** *(not supported yet)*
 
 *the transpiler match a full line with the `codebot:inject` thing*
 
@@ -122,6 +145,25 @@ codebot(ops)
   <!-- inject:codebot -->
   <h1><%= $this.title %></h1>
   <!-- endinject -->
+```
+
+## Usage with gulp
+
+```
+npm i --save-dev gulp-codebot
+```
+
+```js
+var codebot = require('gulp-codebot');
+
+var modules = [
+  '/path/from/templates/module1',
+  '/path/from/templates/module2'
+];
+
+gulp.src('./model.json')
+    .pipe(codebot({ modules: modules }))
+    .pipe(gulp.dest('./src'));
 ```
 
 ## Example

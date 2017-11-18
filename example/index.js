@@ -8,9 +8,9 @@ let writer = (item, content) => {
 
 let ops = {
   modules: [
-    path.resolve(path.join(__dirname, '/templates/angular')),
-    path.resolve(path.join(__dirname, '/templates/server')),
-    //path.resolve(path.join(__dirname, '/templates/experiments'))
+    //path.resolve(path.join(__dirname, '/templates/angular')),
+    //path.resolve(path.join(__dirname, '/templates/server')),
+    path.resolve(path.join(__dirname, '/templates/experiments'))
   ],
   output: path.resolve(path.join(__dirname, '/output')),
   model: fs.readJsonSync(path.join(__dirname, '/templates/model.json')),

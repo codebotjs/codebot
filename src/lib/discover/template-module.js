@@ -21,7 +21,10 @@ export default class TemplateModule {
     this.dir = dir;
     this.model = model;
     this.output = output;
-    this.config = { src: 'src' };
+    this.config = { 
+      src: 'src',
+      ignore: [ 'codebot.json' ]
+    };
 
     // define the default name
     let p = path.parse(this.dir);
@@ -29,17 +32,29 @@ export default class TemplateModule {
 
     // if exists an config file readed
     this.cfile = path.resolve(this.dir, 'codebot.json');
+    this.pfile = path.resolve(this.dir, 'package.json');
+    let cfg = {};
+
     if (fs.existsSync(this.cfile)){
       let json = fs.readJsonSync(this.cfile);
-      this.config = Object.assign({}, this.config, json);
+      cfg = json;
+    } else if(fs.existsSync(this.pfile)) {
+      let json = fs.readJsonSync(this.pfile);
+      cfg = json.codebot || {};
     }
+
+    cfg.ignore = cfg.ignore || [];
+    this.config.ignore = _.concat(this.config.ignore, cfg.ignore);
+    delete cfg.ignore;
+
+    this.config = Object.assign({}, this.config, cfg);
     
     this.name = this.config.name;
 
     // resolve the source folder
     let sourceFolder = path.resolve(this.dir, this.config.src);
     // the source folder
-    this.sourceRoot = new SourceFolder({dir: sourceFolder, model, output, isRoot: true});
+    this.sourceRoot = new SourceFolder({dir: sourceFolder, model, output, isRoot: true, ignore: this.config.ignore});
     // expand the tree of templates
     let expanded = this.sourceRoot.expand(/*$this*/model);
     this.root = (expanded && expanded.length) ? expanded[0] : null;
