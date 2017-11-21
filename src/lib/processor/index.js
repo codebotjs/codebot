@@ -17,7 +17,8 @@ import _writer from '../writer';
  */
 export default function({log, simulate, writer}) {
 	let target = 'processor';
-	let ignoreOverride = writer !== undefined; 
+	// always not override
+	let ignoreOverride = false; 
 
 	return (ops, callback) => {
 	  let limit = process.env.ASYNC_LIMIT || 2;
@@ -69,7 +70,7 @@ export default function({log, simulate, writer}) {
 	        });
 
 	      },
-	      (err) => {
+	      (err, results) => {
 	        if (err){
 	          return callback(err);
 	        }
