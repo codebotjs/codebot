@@ -6,8 +6,8 @@
          alt="NPM Version">
   </a>
 
-  <a href="https://travis-ci.org/delmosaurio/codebot">
-    <img src="https://img.shields.io/travis/delmosaurio/codebot.svg?style=flat-square"
+  <a href="https://travis-ci.org/codebotjs/codebot">
+    <img src="https://img.shields.io/travis/codebotjs/codebot.svg?style=flat-square"
          alt="Build Status">
   </a>
 
@@ -16,12 +16,12 @@
          alt="Downloads">
   </a>
 
-  <a href="https://david-dm.org/delmosaurio/codebot.svg">
-    <img src="https://david-dm.org/delmosaurio/codebot.svg?style=flat-square"
+  <a href="https://david-dm.org/codebotjs/codebot.svg">
+    <img src="https://david-dm.org/codebotjs/codebot.svg?style=flat-square"
          alt="Dependency Status">
   </a>
 
-  <a href="https://github.com/delmosaurio/codebot/blob/master/LICENSE">
+  <a href="https://github.com/codebotjs/codebot/blob/master/LICENSE">
     <img src="https://img.shields.io/npm/l/codebot.svg?style=flat-square"
          alt="License">
   </a>
@@ -246,18 +246,18 @@ gulp.src('./model.json')
 
 ## License
 
-MIT © [Delmo](https://github.com/delmosaurio/codebot)
+MIT © [Delmo](https://github.com/codebotjs/codebot)
 
 [npm-url]: https://npmjs.org/package/codebot
 [npm-image]: https://img.shields.io/npm/v/codebot.svg?style=flat-square
 
-[travis-url]: https://travis-ci.org/delmosaurio/codebot
-[travis-image]: https://img.shields.io/travis/delmosaurio/codebot.svg?style=flat-square
+[travis-url]: https://travis-ci.org/codebotjs/codebot
+[travis-image]: https://img.shields.io/travis/codebotjs/codebot.svg?style=flat-square
 
-[coveralls-url]: https://coveralls.io/r/delmosaurio/codebot
-[coveralls-image]: https://img.shields.io/coveralls/delmosaurio/codebot.svg?style=flat-square
+[coveralls-url]: https://coveralls.io/r/codebotjs/codebot
+[coveralls-image]: https://img.shields.io/coveralls/codebotjs/codebot.svg?style=flat-square
 
-[depstat-url]: https://david-dm.org/delmosaurio/codebot
-[depstat-image]: https://david-dm.org/delmosaurio/codebot.svg?style=flat-square
+[depstat-url]: https://david-dm.org/codebotjs/codebot
+[depstat-image]: https://david-dm.org/codebotjs/codebot.svg?style=flat-square
 
 [download-badge]: http://img.shields.io/npm/dm/codebot.svg?style=flat-square
